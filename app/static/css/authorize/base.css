@@ -1,0 +1,31 @@
+.login_wrapper {
+    min-width: 265px;
+    width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+    background: #939393;
+}
+
+.content {
+    padding: 10px;
+    font-size: 1.2em;
+    border: 1px solid #46464F;
+}
+
+.title {
+    font-size: 1.4em;
+    display: block;
+    text-align: center;
+}
+
+.label, .submit {
+    padding-top: 10px;
+}
+
+.input_field {
+    padding-top: 5px;
+}
+
+input {
+    width: 99%;
+}

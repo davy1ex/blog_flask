@@ -1,0 +1,70 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #AAAAAA;
+    color: #46464F;
+}
+
+input {
+    border: 1px solid #cccccc;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    height: 30px;
+}
+
+.header_wrapper {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    background: #46464F;
+    min-height: 60px;
+}
+
+nav li {
+    line-height: 60px;
+    list-style: none;
+    display: inline;
+}
+
+nav li a, nav li a:visited {
+    font-size: 1.5em;
+    text-decoration: none;
+    color: white;
+}
+
+nav li:not(:first-child) {
+    padding-left: 10px;
+}
+
+nav li a:hover {
+    color: #AAAAAA;
+}
+
+.content_wrapper {
+    width: 65%;
+    margin-top: 20px;
+    padding-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.flashed {
+    border-top: 1px solid #46464F;
+    padding: 10px;
+    color: #46464F;
+}

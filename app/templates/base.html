@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% if not title %}
+        <title>Challenge in your city</title>
+    {% else %}
+        <title>{{ title }}</title>
+    {% endif %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/base.css") }}">
+    {% block css %}
+        
+    {% endblock %}
+</head>
+<body>
+    <header>
+        <div class="header_wrapper">
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/reg">Sign up</a></li>
+                    <li><a href="/login">Sign in</a></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="content_wrapper">
+        {% block content %}
+        {% endblock %}
+
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <br>
+            <div class="flashed">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>

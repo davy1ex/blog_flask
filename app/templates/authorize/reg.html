@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/authorize/base.css") }}">
+{% endblock %}
+
+{% block content %}
+    <div class="login_wrapper">
+        <div class="content">
+            <span class="title">Registration</span>
+            
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                
+                <div class="username_field">
+                    <div class="label">
+                        {{ form.username.label }}
+                    </div>
+
+                    <div class="input_field">
+                        {{ form.username(size=30) }}
+                    </div>
+
+                </div>
+
+                <div class="password_field">
+                    <div class="label">
+                        {{ form.password.label }}
+                    </div>
+
+                    <div class="input_field">
+                        {{ form.password(size=30) }}
+                    </div>
+                </div>
+
+                <div class="password1_field">
+                    <div class="label">
+                        {{ form.password2.label }}
+                    </div>
+
+                    <div class="input_field">
+                        {{ form.password2(size=30) }}
+                    </div>
+                </div>
+
+                <div class="submit">
+                    {{ form.submit() }}
+                </div>
+                
+            </form>
+        </div>
+            
+    </div>
+{% endblock %}
