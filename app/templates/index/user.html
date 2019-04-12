@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="user_pic">
+        <div class="label">
+            {{ current_user.username }}
+        </div>
+        <br>
+        <img src={{ current_user.get_pic(size=128) }}>
+    </div>
+    <hr>
+    <br>
+    {% for post in posts %}
+        {% include "index/_post.html" %}
+
+        <br>
+        
+    {% endfor %}
+{% endblock %}
