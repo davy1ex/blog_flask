@@ -1,0 +1,41 @@
+{% extends "settings/base.html" %}
+
+{% block settings_css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/settings/base.css") }}">
+{% endblock %}
+
+{% block settings %}
+    <h3>Profile settings</h3>
+    
+    <!-- <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="label">
+            {{ form.username.label }}
+        </div>
+        
+        <div class="input_field">
+            {{ form.username(size=32) }}
+        </div>
+
+        <div class="submit">
+            {{ form.submit() }}
+        </div>
+        <br>
+        <hr>
+
+        <div class="label">
+            {{ form.about.label }}
+        </div>
+
+        <div class="input_field">
+            {{ form.about(rows=5,
+                cols=40) }}
+        </div>
+
+        <div class="submit">
+            {{ form.submit() }}
+        </div>
+    </form> -->
+    сюда пихну смена пароля и почты
+
+{% endblock %}

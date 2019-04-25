@@ -1,4 +1,4 @@
-from app import app, views
+from app import app, views, errors
 
 
 if __name__ == "__main__":

@@ -16,12 +16,17 @@
         <div class="header_wrapper">
             <nav>
                 <ul>
-                    {% if not current_user.is_anonymous %}
-                        <li><a href=url_for("user", username={{ current_user.username }})>Home</a></li>
+                    <li><a href="/") }}">Home</a></li>
+                        
+                        
+                    {% if current_user.username == "root" %}
+                        <li><a href="/add_post">Add</a></li>
+                        <li><a href="/settings/profile">Settings</a></li>
                         <li><a href="/logout">Logout</a></li>
+
                     {% else %}
-                        <li><a href="/reg">Sign up</a></li>
-                        <li><a href="/login">Sign in</a></li>
+                        <!-- <li><a href="/create_admin">Sign up</a></li>
+                        <li><a href="/admin">Sign in</a></li> -->
                     {% endif %}
                     
                 </ul>

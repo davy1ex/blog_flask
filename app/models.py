@@ -13,6 +13,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(64), unique=True, index=True)
     password = db.Column(db.String(128))
     email = db.Column(db.String(64), unique=True, index=True)
+    about = db.Column(db.String(512))
+    post = db.relationship("Post", backref="master", lazy="dynamic")
 
     def __repr__(self):
         return "<User>: %s" % self.username
@@ -23,8 +25,21 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+    def change_username(self, new_username):
+        self.username = new_username
+
+    def change_about(self, new_about):
+        self.about = new_about
+
     def get_pic(self, size):
-        # email = md5(self.email).hexdigest()
-        # print(email)
-        # print("\n\nhttps://www.gravatar.com/avatar/{0}?s{1}\n\n".format, size))
         return "https://www.gravatar.com/avatar/{0}?s={1}".format(md5(self.email.encode('utf-8')).hexdigest(), size)
+
+
+class Post(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    title = db.Column(db.String(256))
+    body = db.Column(db.String(1000))
+
+    def __repr__(self):
+        return "<Post: %s>" % self.title
