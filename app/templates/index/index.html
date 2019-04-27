@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index/index.css") }}">
+{% endblock %}
+
 {% block content %}
     <!-- <h1>hello, 
     {% if not current_user.is_anonymous %}
@@ -11,7 +15,7 @@
         <div class="title">
             <h3>{{ post.title }}</h3>
         </div>
-
+        <img src="/static/img/{{ post.id }}/img.png">
         <div class="post_body">
             {{ post.body }}    
         </div>

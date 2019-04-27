@@ -1,4 +1,4 @@
-from os import getcwd, path
+from os import getcwd, path, mkdir
 from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -78,22 +78,25 @@ def add_post():
     form = TextEditorForm()
     if form.validate_on_submit():
         
-        if "file" not in request.files:
-            return redirect(url_for("add_post"))
-
-        file = request.files["file"]
-        
-        if file.filename == "":
-            return redirect(url_for("add_post"))
-
-        filename = file.filename # пофиксить безопасные имена при сохранении        
-        file.save(path.join(getcwd(), "app", "static", "img", filename))
-        
         if form.text != "":
             post = Post(master=current_user, body=form.text.data, title=form.title.data)
+            
             db.session.add(post)
             db.session.commit()
+            post = Post.query.filter_by(title=form.title.data).first()
+            mkdir(path.join(getcwd(), "app", "static", "img", str(post.id)))
 
-        return redirect(url_for("index"))
+            if "file" not in request.files:
+                return redirect(url_for("add_post"))
+
+            file = request.files["file"]
+            
+            if file.filename == "":
+                return redirect(url_for("add_post"))
+
+            filename = file.filename # пофиксить безопасные имена при сохранении        
+            file.save(path.join(getcwd(), "app", "static", "img", str(post.id), "img.png"))
+
+            return redirect(url_for("index"))
 
     return render_template("editor.html", form=form)

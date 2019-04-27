@@ -38,7 +38,7 @@ class User(db.Model, UserMixin):
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    title = db.Column(db.String(256))
+    title = db.Column(db.String(256), index=True)
     body = db.Column(db.String(1000))
 
     def __repr__(self):
