@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block css  %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index/index.css") }}">
+{% endblock %}
+
+{% block content %}
+    <div class="title">
+        <h3>{{ post.title }}</h3>
+        <a href="{{ url_for("remove_post", id=post.id ) }}">удалить</a>
+    </div>
+    <img src="/static/img/{{ post.id }}/img.jpeg">
+    
+    <div class="post_body">
+        {{ post.body }}    
+    </div>
+{% endblock %}

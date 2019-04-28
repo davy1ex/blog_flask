@@ -1,4 +1,4 @@
-from os import getcwd, path, mkdir
+import os
 from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -7,22 +7,22 @@ from app.models import User, Post
 from app.forms import RegForm, LoginForm, ProfileSettingsForm, TextEditorForm
 
 
-@app.route("/create_admin", methods=["GET", "POST"])
-def registratoin():
-    form = RegForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-        if user is None:
-            user = User(username=form.username.data, email=form.email.data)
-            user.set_password(form.password.data)
-            db.session.add(user)
-            db.session.commit()
-            flash("Success.")
-            return redirect("/admin")
-        else:
-            flash("This username already registered.")
-        return redirect("/create_admin")
-    return render_template("authorize/reg.html", form=form)
+# @app.route("/create_admin", methods=["GET", "POST"])
+# def registratoin():
+#     form = RegForm()
+#     if form.validate_on_submit():
+#         user = User.query.filter_by(username=form.username.data).first()
+#         if user is None:
+#             user = User(username=form.username.data, email=form.email.data)
+#             user.set_password(form.password.data)
+#             db.session.add(user)
+#             db.session.commit()
+#             flash("Success.")
+#             return redirect("/admin")
+#         else:
+#             flash("This username already registered.")
+#         return redirect("/create_admin")
+#     return render_template("authorize/reg.html", form=form)
 
 
 @app.route("/admin", methods=["GET", "POST"])
@@ -49,8 +49,6 @@ def logout():
 @app.route("/")
 @app.route("/index")
 def index():
-    # if not current_user.is_anonymous:
-    #     return redirect("/user/" + current_user.username)
     posts = Post.query.filter_by(master=User.query.filter_by(username="root").first()).all()
     return render_template("index/index.html", posts=posts)
 
@@ -84,7 +82,8 @@ def add_post():
             db.session.add(post)
             db.session.commit()
             post = Post.query.filter_by(title=form.title.data).first()
-            mkdir(path.join(getcwd(), "app", "static", "img", str(post.id)))
+            os.mkdir(os.path.join(os.getcwd(), "app", "static", "img", str(post.id)))
+
 
             if "file" not in request.files:
                 return redirect(url_for("add_post"))
@@ -95,8 +94,22 @@ def add_post():
                 return redirect(url_for("add_post"))
 
             filename = file.filename # пофиксить безопасные имена при сохранении        
-            file.save(path.join(getcwd(), "app", "static", "img", str(post.id), "img.png"))
+            file.save(os.path.join(os.getcwd(), "app", "static", "img", str(post.id), "img.jpeg"))
 
             return redirect(url_for("index"))
 
     return render_template("editor.html", form=form)
+
+
+@login_required
+@app.route("/remove_post/<id>")
+def remove_post(id):
+    Post.query.filter_by(id=id).delete()
+    os.system("rm -rf " + os.path.join("app", "static", "img", id))
+    db.session.commit()
+    return redirect(url_for("index"))
+
+
+@app.route("/post_<id>")
+def post(id):
+    return render_template("index/post.html", post=Post.query.filter_by(id=id).first_or_404())

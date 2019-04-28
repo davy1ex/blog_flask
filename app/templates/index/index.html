@@ -15,9 +15,17 @@
         <div class="title">
             <h3>{{ post.title }}</h3>
         </div>
-        <img src="/static/img/{{ post.id }}/img.png">
+        <img src="/static/img/{{ post.id }}/img.jpeg">
         <div class="post_body">
-            {{ post.body }}    
+            {% if post.body|length > 100 %}
+                {{ post.body[:100] + "..." }}
+                <a href="{{ url_for("post", id=post.id) }}">открыть</a>
+            {% else %}
+                {{ post.body }}
+            {% endif %}
         </div>
+        <a href="{{ url_for("remove_post", id=post.id ) }}">удалить</a>
+        <br>
+        <br>
     {% endfor %}
 {% endblock %}
