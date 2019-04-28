@@ -1,4 +1,42 @@
 img {
-    width: 600px;
-    height: 340px;
+    /*width: 600px;
+    height: 340px;*/
+    max-width: 90%;
+    max-height: : 100px;
+    min-height: 150px;
+    /*height: ;*/
+}
+
+
+
+.post_wrapper {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.post {
+    /*background: #FFFDF8;*/
+    margin-bottom: 30px;
+    font-size: 16px;
+}
+
+.title {
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
+
+    margin-bottom: 10px;
+
+    font-size: 30px;
+    font-weight: bold;
+
+    border-bottom: 1px solid lightgray;
+}
+
+.body {
+    max-width: 90%;
+    margin-right: auto;
+    margin-left: auto;
 }

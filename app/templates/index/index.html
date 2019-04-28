@@ -11,21 +11,26 @@
     {% else %}
         anonymous </h1>
     {% endif %} -->
-    {% for post in posts %}
-        <div class="title">
-            <h3>{{ post.title }}</h3>
-        </div>
-        <img src="/static/img/{{ post.id }}/img.jpeg">
-        <div class="post_body">
-            {% if post.body|length > 100 %}
-                {{ post.body[:100] + "..." }}
-                <a href="{{ url_for("post", id=post.id) }}">открыть</a>
-            {% else %}
-                {{ post.body }}
-            {% endif %}
-        </div>
-        <a href="{{ url_for("remove_post", id=post.id ) }}">удалить</a>
-        <br>
-        <br>
-    {% endfor %}
+    <div class="post_wrapper">
+        {% for post in posts %}
+            <div class="post">
+                <div class="title">
+                    <a href="{{ url_for("post", id=post.id) }}">{{ post.title }}</a>
+                </div>
+                <div>
+                    
+                </div>
+                <img src="/static/img/{{ post.id }}/img.jpeg">
+                <div class="body">
+                    {% if post.body|length > 200 %}
+                        {{ post.body[:200] + "..." }}
+                        <a href="{{ url_for("post", id=post.id) }}">открыть</a>
+                    {% else %}
+                        {{ post.body }}
+                    {% endif %}
+                </div>
+                <a href="{{ url_for("remove_post", id=post.id ) }}">удалить</a>
+            </div>                
+        {% endfor %}
+    </div>
 {% endblock %}

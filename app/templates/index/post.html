@@ -2,16 +2,23 @@
 
 {% block css  %}
     <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index/index.css") }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for("static", filename="css/index/post.css") }}">
 {% endblock %}
 
 {% block content %}
-    <div class="title">
-        <h3>{{ post.title }}</h3>
-        <a href="{{ url_for("remove_post", id=post.id ) }}">удалить</a>
-    </div>
-    <img src="/static/img/{{ post.id }}/img.jpeg">
-    
-    <div class="post_body">
-        {{ post.body }}    
-    </div>
+    <div class="post_wrapper">
+        <div class="post">
+            <div class="title">
+                <h2>{{ post.title }}</h2>
+            </div>
+            <div>
+                
+            </div>
+            <img src="/static/img/{{ post.id }}/img.jpeg">
+            <div class="body">
+                {{ post.body }}
+            </div>
+            <a href="{{ url_for("remove_post", id=post.id ) }}">удалить</a>
+        </div>
+    </div>                
 {% endblock %}

@@ -4,7 +4,7 @@
 }
 
 body {
-    background: #AAAAAA;
+    background: #E8E4DC;
     color: #46464F;
 }
 
@@ -28,11 +28,20 @@ input {
     width: 70%;
     margin-left: auto;
     margin-right: auto;
+
+    background: white;
+    border-bottom: 1px solid gray;
 }
 
 header {
-    background: #46464F;
+    /*background: #46464F;*/
     min-height: 60px;
+}
+
+nav {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 nav li {
@@ -41,10 +50,12 @@ nav li {
     display: inline;
 }
 
-nav li a, nav li a:visited {
+a, a:visited {
     font-size: 1.5em;
     text-decoration: none;
-    color: white;
+    /*color: white;*/
+
+    color: #46464F;
 }
 
 nav li:not(:first-child) {
@@ -56,11 +67,13 @@ nav li a:hover {
 }
 
 .content_wrapper {
-    width: 65%;
-    margin-top: 20px;
+    width: 70%;
+    padding-top: 20px;
     padding-bottom: 10px;
     margin-left: auto;
     margin-right: auto;
+
+    background: white;
 }
 
 .flashed {
