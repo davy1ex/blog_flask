@@ -4,7 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 from app import app, db
 from app.models import User, Post
-from app.forms import RegForm, LoginForm, ProfileSettingsForm, TextEditorForm
+from app.forms import RegForm, LoginForm, ProfileSettingsForm, TextEditorForm, AddCommentForm
 
 
 # @app.route("/create_admin", methods=["GET", "POST"])
@@ -50,6 +50,7 @@ def logout():
 @app.route("/index")
 def index():
     posts = Post.query.filter_by(master=User.query.filter_by(username="root").first()).all()
+    
     return render_template("index/index.html", posts=posts)
 
 
@@ -57,16 +58,16 @@ def index():
 @login_required
 def settings_profile():
     form = ProfileSettingsForm()
-    user = current_user
-    if form.validate_on_submit():
-        if form.username.data != "":
-            if User.query.filter_by(username=form.username.data).first() is None:
-                current_user.change_username(form.username.data)
-                db.session.commit()
+    # user = current_user
+    # if form.validate_on_submit():
+    #     if form.username.data != "":
+    #         if User.query.filter_by(username=form.username.data).first() is None:
+    #             current_user.change_username(form.username.data)
+    #             db.session.commit()
 
-        if form.about.data != "":
-            current_user.change_about(form.about.data)
-            db.session.commit()
+    #     if form.about.data != "":
+    #         current_user.change_about(form.about.data)
+    #         db.session.commit()
     return render_template("settings/profile.html", form=form)
 
 
@@ -75,25 +76,24 @@ def settings_profile():
 def add_post():
     form = TextEditorForm()
     if form.validate_on_submit():
-        
+
         if form.text != "":
             post = Post(master=current_user, body=form.text.data, title=form.title.data)
-            
+
             db.session.add(post)
             db.session.commit()
             post = Post.query.filter_by(title=form.title.data).first()
             os.mkdir(os.path.join(os.getcwd(), "app", "static", "img", str(post.id)))
 
-
             if "file" not in request.files:
                 return redirect(url_for("add_post"))
 
             file = request.files["file"]
-            
+
             if file.filename == "":
                 return redirect(url_for("add_post"))
 
-            filename = file.filename # пофиксить безопасные имена при сохранении        
+            # filename = file.filename # пофиксить безопасные имена при сохранении        
             file.save(os.path.join(os.getcwd(), "app", "static", "img", str(post.id), "img.jpeg"))
 
             return redirect(url_for("index"))
@@ -112,4 +112,27 @@ def remove_post(id):
 
 @app.route("/post_<id>")
 def post(id):
-    return render_template("index/post.html", post=Post.query.filter_by(id=id).first_or_404())
+    form = AddCommentForm()
+    post = Post.query.filter_by(id=id).first_or_404()
+
+    comments = [
+       {
+            "author": "VinniePoh",
+            "body": "Нормально...",
+            "email": "vinniepoh@gmail.com"
+        },
+
+        {
+            "author": "Sherlock Holmes",
+            "body": "Где мой кокс?",
+            "email": "SH@gmail.com"
+        },
+
+        {
+            "author": "Krosh",
+            "body": "Ёжик, ты где, блядь?",
+            "email": "kicoric777@gmail.com"
+        }
+    ]
+
+    return render_template("index/post.html", post=post, form=form, comments=comments)

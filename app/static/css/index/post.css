@@ -2,3 +2,12 @@
     text-align: left;
     white-space: pre-wrap;
 }
+
+.add_comments {
+    /*width: 50%;*/
+    /*margin-right: auto;*/
+}
+
+.contact_info div {
+    display: inline-block;  
+}

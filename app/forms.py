@@ -41,3 +41,10 @@ class TextEditorForm(FlaskForm):
     title = StringField("Title")
     text = TextAreaField("AddText")
     submit = SubmitField("Ok")
+
+
+class AddCommentForm(FlaskForm):
+    author = StringField("Username")
+    email = StringField("Email")
+    body = TextAreaField("Comment")
+    submit = SubmitField("Ok")
