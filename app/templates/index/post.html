@@ -18,12 +18,35 @@
                 {{ post.body }}
             </div>
             
-            Comments
-            <hr style="color:gray">
+            <div class="comments_wrapper">
+                <div class="label">
+                    Comments: {{ comments|length }}
+                </div>
+
+                <div class="comments">
+                    {% for comment in comments %}
+                        <div class="comment_contact_info">
+                            <div class="author">
+                                {{ comment.author }}
+                            </div> 
+                            
+                            <div class="email">
+                                ({{ comment.email }})    
+                            </div>
+                        </div>
+                        
+                        <div class="comment_body">
+                            {{ comment.body }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>          
+            
             <div class="add_comments">
-                
-                Comment: <br>
-                {{ form.body(cols=100, rows=5) }}<br>
+                <div class="text_area_field">
+                    Comment: <br>
+                    {{ form.body() }}<br>
+                </div>
                 
                 <div class="contact_info">
                     <div class="email">
@@ -36,17 +59,13 @@
                         {{ form.author() }}
                     </div>
                 </div>
-                {{ form.submit }}
+                
+                <div class="button">
+                    {{ form.submit }}
+                </div>
             </div>
             
-            <div class="comments">
-                {% for comment in comments %}
-                    {{ comment.author }} ({{ comment.email }})<br>        
-                    {{ comment.body }}
-                    <br>
-                    <br>
-                {% endfor %}
-            </div>            
+
         </div>
     </div>                
 {% endblock %}

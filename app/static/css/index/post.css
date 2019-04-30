@@ -3,11 +3,85 @@
     white-space: pre-wrap;
 }
 
-.add_comments {
-    /*width: 50%;*/
-    /*margin-right: auto;*/
+.add_comments, .comments_wrapper {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto; 
+}
+
+.text_area_field {
+    margin-top: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+.contact_info {
+    width: 50%;
 }
 
 .contact_info div {
-    display: inline-block;  
+    display: inline-block;
+}
+
+textarea {
+    width: 50%;
+    height: 200px;
+}
+
+.email, .author {
+    width: 49%;
+    text-align: left;
+}
+
+input[type=text] {
+    width: 99%;
+}
+
+.comments_wrapper .label {
+    text-align: left;
+    
+    font-weight: bold;
+    font-size: 20px;
+    
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+
+.comments {
+    width: 100%;
+    text-align: left;
+}
+
+.comment_contact_info {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.comment_contact_info div {
+    display: inline-block;
+}
+
+.comment_contact_info .author {
+    font-weight: bold;
+    width: auto;
+}
+
+.comment_contact_info .email {
+    width: auto;
+}
+
+.comment_body {
+    margin-bottom: 20px;
+}
+
+.button {
+    width: 50%;
+    padding-top: 10px;
+    text-align: right;
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+}
+
+.button input[type="submit"] {
+    width: 100px;
 }
