@@ -1,28 +1,14 @@
+# ДОБАВИТЬ ОГРАНИЧЕНИЯ НА ВВОД В КОММЕНТАХ
+# ДОБАВИТЬ УДАЛЕНИЕ ФОТО ОТ УДАЛЁННЫХ ПОСТОВ/НОРМАЛЬНУЮ СИСТЕМУ ХРАНЕНИЯ ФОТО
 import os
 from flask import render_template, url_for, flash, redirect, request
 from flask_login import login_user, current_user, logout_user, login_required
 
 from app import app, db
-from app.models import User, Post
+from app.models import User, Post, Comment
 from app.forms import RegForm, LoginForm, ProfileSettingsForm, TextEditorForm, AddCommentForm
 
-
-# @app.route("/create_admin", methods=["GET", "POST"])
-# def registratoin():
-#     form = RegForm()
-#     if form.validate_on_submit():
-#         user = User.query.filter_by(username=form.username.data).first()
-#         if user is None:
-#             user = User(username=form.username.data, email=form.email.data)
-#             user.set_password(form.password.data)
-#             db.session.add(user)
-#             db.session.commit()
-#             flash("Success.")
-#             return redirect("/admin")
-#         else:
-#             flash("This username already registered.")
-#         return redirect("/create_admin")
-#     return render_template("authorize/reg.html", form=form)
+admin_username = "admin"
 
 
 @app.route("/admin", methods=["GET", "POST"])
@@ -35,7 +21,7 @@ def login():
             flash("Now you in our system.")
             return redirect("/")
         else:
-            flash("User with this login and password not found")        
+            flash("User with this login and password not found")
     return render_template("authorize/login.html", form=form)
 
 
@@ -49,8 +35,8 @@ def logout():
 @app.route("/")
 @app.route("/index")
 def index():
-    posts = Post.query.filter_by(master=User.query.filter_by(username="root").first()).all()
-    
+    posts = Post.query.filter_by(master=User.query.filter_by(username=admin_username).first()).all()
+
     return render_template("index/index.html", posts=posts)
 
 
@@ -104,35 +90,45 @@ def add_post():
 @login_required
 @app.route("/remove_post/<id>")
 def remove_post(id):
-    Post.query.filter_by(id=id).delete()
+    post = Post.query.filter_by(id=id).first()
     os.system("rm -rf " + os.path.join("app", "static", "img", id))
+    db.session.delete(post)
     db.session.commit()
     return redirect(url_for("index"))
 
 
-@app.route("/post_<id>")
+@app.route("/post_<id>", methods=["GET", "POST"])
 def post(id):
     form = AddCommentForm()
     post = Post.query.filter_by(id=id).first_or_404()
 
-    comments = [
-       {
-            "author": "VinniePoh",
-            "body": "Нормально...",
-            "email": "vinniepoh@gmail.com"
-        },
+    if form.validate_on_submit():
+        if request.form["submit"] == "Ok":
+            comment = Comment(author=form.author.data, email=form.email.data, body=form.body.data, post=post)
+            db.session.add(comment)
+            db.session.commit()
 
-        {
-            "author": "Sherlock Holmes",
-            "body": "Где мой кокс?",
-            "email": "SH@gmail.com"
-        },
+            # return redirect(url_for("post", id=id))
 
-        {
-            "author": "Krosh",
-            "body": "Ёжик, ты где, блядь?",
-            "email": "kicoric777@gmail.com"
-        }
-    ]
+    comments = Comment.query.filter_by(post=post).all()
+    # comments = [
+    #    {
+    #         "author": "VinniePoh",
+    #         "body": "Нормально...",
+    #         "email": "vinniepoh@gmail.com"
+    #     },
+
+    #     {
+    #         "author": "Sherlock Holmes",
+    #         "body": "Где мой кокс?",
+    #         "email": "SH@gmail.com"
+    #     },
+
+    #     {
+    #         "author": "Krosh",
+    #         "body": "Ёжик, ты где, блядь?",
+    #         "email": "kicoric777@gmail.com"
+    #     }
+    # ]
 
     return render_template("index/post.html", post=post, form=form, comments=comments)

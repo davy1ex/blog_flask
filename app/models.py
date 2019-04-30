@@ -1,3 +1,5 @@
+# СДЕЛАЙ, БЛЯДЬ, МИГРАЦИОННУЮ БД
+from datetime import datetime
 from hashlib import md5
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -39,7 +41,20 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     title = db.Column(db.String(256), index=True)
-    body = db.Column(db.String(1000))
+    body = db.Column(db.String(10000))
+    comment = db.relationship("Comment", backref="post", lazy="dynamic")
 
     def __repr__(self):
         return "<Post: %s>" % self.title
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
+    author = db.Column(db.String(64))
+    email = db.Column(db.String(64))
+    body = db.Column(db.String(140))
+    datetime = db.Column(db.DateTime(), default=datetime.now)
+
+    def __repr__(self):
+        return "<Comment: %s>" % self.body

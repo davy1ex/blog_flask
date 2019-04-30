@@ -2,7 +2,7 @@
 <html>
 <head>
     {% if not title %}
-        <title>Challenge in your city</title>
+        <title>Blog</title>
     {% else %}
         <title>{{ title }}</title>
     {% endif %}
@@ -19,7 +19,7 @@
                     <li><a href="/") }}">Home</a></li>
                         
                         
-                    {% if current_user.username == "root" %}
+                    {% if current_user.username == "admin" %}
                         <li><a href="/add_post">Add</a></li>
                         <li><a href="/settings/profile">Settings</a></li>
                         <li><a href="/logout">Logout</a></li>

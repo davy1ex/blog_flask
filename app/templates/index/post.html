@@ -43,26 +43,29 @@
             </div>          
             
             <div class="add_comments">
-                <div class="text_area_field">
-                    Comment: <br>
-                    {{ form.body() }}<br>
-                </div>
-                
-                <div class="contact_info">
-                    <div class="email">
-                        Email:<br>
-                        {{ form.email() }}    
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="text_area_field">
+                        Comment (140 letters): <br>
+                        {{ form.body() }}<br>
                     </div>
+                    
+                    <div class="contact_info">
+                        <div class="email">
+                            Email (64 letters):<br>
+                            {{ form.email() }}    
+                        </div>
 
-                    <div class="author">
-                        Username:<br>
-                        {{ form.author() }}
+                        <div class="author">
+                            Username (64 letters):<br>
+                            {{ form.author() }}
+                        </div>
                     </div>
-                </div>
-                
-                <div class="button">
-                    {{ form.submit }}
-                </div>
+                    
+                    <div class="button">
+                        {{ form.submit(value="Ok") }}
+                    </div>
+                </form>
             </div>
             
 
