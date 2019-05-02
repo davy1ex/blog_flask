@@ -55,6 +55,19 @@ class Comment(db.Model):
     email = db.Column(db.String(64))
     body = db.Column(db.String(140))
     datetime = db.Column(db.DateTime(), default=datetime.now)
+    answer = db.relationship("Answer", backref="comment", lazy="dynamic")
 
     def __repr__(self):
         return "<Comment: %s>" % self.body
+
+
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, db.ForeignKey("comment.id"))
+    author = db.Column(db.String(140))
+    email = db.Column(db.String(64))
+    body = db.Column(db.String(140))
+    datetime = db.Column(db.DateTime(), default=datetime.now)
+
+    def __repr__(self):
+        return "<Answer: %s>" % self.body

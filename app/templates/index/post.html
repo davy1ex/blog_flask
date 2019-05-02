@@ -37,7 +37,18 @@
                         
                         <div class="comment_body">
                             {{ comment.body }}
+                            {% if answers|length > 0 %}
+                                <div class="answers_wrapper">
+                                    
+                                </div>
+                            {% endif %}
+                            <div class="answer">
+                                <!-- {{ form.submit(value="reply") }} -->
+                                <a href="{{ url_for("reply", post_id=comment.id, accost=comment.author) }}">reply</a>
+                            </div>
                         </div>
+
+                        
                     {% endfor %}
                 </div>
             </div>          
@@ -47,7 +58,11 @@
                     {{ form.hidden_tag() }}
                     <div class="text_area_field">
                         Comment (140 letters): <br>
-                        {{ form.body() }}<br>
+                        {% if answer %}
+                            {{ form.body(value="[" + accost + "]")}}
+                        {% else %}
+                            {{ form.body(value="хуй") }}<br>
+                        {% endif %}
                     </div>
                     
                     <div class="contact_info">
