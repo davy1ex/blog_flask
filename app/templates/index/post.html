@@ -37,6 +37,12 @@
                             
                             <div class="comment_body">
                                 {{ comment.body }}
+                                <div class="answers_wrapper">
+                                    {% for answer in answers %}
+                                        {{ answer["author"] }} <br>
+                                        {{ answer["body"] }} <br> <br>
+                                    {% endfor %}
+                                </div>
                             </div>
 
                             
@@ -49,11 +55,6 @@
                     {{ form.hidden_tag() }}
                     <div class="text_area_field">
                         Comment (140 letters): <br>
-                        {% if answer %}
-                            {{ form.body(value="[" + accost + "]")}}
-                        {% else %}
-                            {{ form.body(value="хуй") }}<br>
-                        {% endif %}
                     </div>
                     
                     <div class="contact_info">

@@ -87,7 +87,8 @@ input[type=text] {
     width: 100px;
 }
 
-.answer {
-    width: 50%;
-    text-align: right;
+.answers_wrapper {
+    width: 95%;
+    margin-left: auto;
+    /*text-align: ;*/
 }
