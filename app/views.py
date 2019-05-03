@@ -103,27 +103,7 @@ def post(id):
     post = Post.query.filter_by(id=id).first_or_404()
     comments = Comment.query.filter_by(post=post).all()
 
-    answers = [
-        {
-            "author": "dezy1ex",
-            "body": "А знаешь, вроде неплохо."
-        },
-
-        {
-            "author": "devy1ex",
-            "body": "Думаю, пора заканчивать."
-        },
-
-        {
-            "author": "Пятачок",
-            "body": "Винни, ты не слишком большой."
-        },
-
-        {
-            "author": "Кролик",
-            "body": "Это всё потому что кто-то слишком много ест..."
-        },
-    ]
+    answers = Answer
 
     if form.validate_on_submit():
         if request.form["submit"] == "Ok":
