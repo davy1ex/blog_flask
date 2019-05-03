@@ -17,44 +17,35 @@
             <div class="body">
                 {{ post.body }}
             </div>
-            
-            <div class="comments_wrapper">
-                <div class="label">
-                    Comments: {{ comments|length }}
-                </div>
+            <form method="POST">
+                <div class="comments_wrapper">
+                    <div class="label">
+                        Comments: {{ comments|length }}
+                    </div>
 
-                <div class="comments">
-                    {% for comment in comments %}
-                        <div class="comment_contact_info">
-                            <div class="author">
-                                {{ comment.author }}
-                            </div> 
-                            
-                            <div class="email">
-                                ({{ comment.email }})    
-                            </div>
-                        </div>
-                        
-                        <div class="comment_body">
-                            {{ comment.body }}
-                            {% if answers|length > 0 %}
-                                <div class="answers_wrapper">
-                                    
+                    <div class="comments">
+                        {% for comment in comments %}
+                            <div class="comment_contact_info">
+                                <div class="author">
+                                    {{ comment.author }}
+                                </div> 
+                                
+                                <div class="email">
+                                    ({{ comment.email }})    
                                 </div>
-                            {% endif %}
-                            <div class="answer">
-                                <!-- {{ form.submit(value="reply") }} -->
-                                <a href="{{ url_for("reply", post_id=comment.id, accost=comment.author) }}">reply</a>
                             </div>
-                        </div>
+                            
+                            <div class="comment_body">
+                                {{ comment.body }}
+                            </div>
 
-                        
-                    {% endfor %}
-                </div>
-            </div>          
-            
-            <div class="add_comments">
-                <form method="POST">
+                            
+                        {% endfor %}
+                    </div>
+                </div>          
+                
+                <div class="add_comments">
+                    
                     {{ form.hidden_tag() }}
                     <div class="text_area_field">
                         Comment (140 letters): <br>
@@ -80,9 +71,9 @@
                     <div class="button">
                         {{ form.submit(value="Ok") }}
                     </div>
-                </form>
-            </div>
-            
+                    
+                </div>
+            </form>
 
         </div>
     </div>                

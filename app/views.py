@@ -101,40 +101,12 @@ def remove_post(id):
 def post(id):
     form = AddCommentForm()
     post = Post.query.filter_by(id=id).first_or_404()
-
-    answer = False  # если верно, то автоставка юзернейма в поле ввода коммента
-    answers = []
+    comments = Comment.query.filter_by(post=post).all()
 
     if form.validate_on_submit():
         if request.form["submit"] == "Ok":
             comment = Comment(author=form.author.data, email=form.email.data, body=form.body.data, post=post)
             db.session.add(comment)
             db.session.commit()
-
-            return redirect(url_for("post", id=id))
-
-        # if request.form["submit"] == "reply":
-        #     answer = True
-        #     return "42"
-
-        accost = form.text.data.split(" ")[0]
-
-        if "[" in accost and "]" in accost:
-            answers = Answer(comment=Comment.query.filter_by(post=post).first())
-            db.session.add(answer)
-            db.session.commit()
-
-
-    comments = Comment.query.filter_by(post=post).all()
-
-    return render_template("index/post.html", post=post, form=form, comments=comments, answer=answer, answers=answers)
-
-
-@app.route("/reply_<post_id>_<accost>")
-def reply(post_id, accost):
-    form = AddCommentForm()
-    answer = True
-    post = Post.query.filter_by(id=post_id).first_or_404()
-    comments = Comment.query.filter_by(post=post).all()
-    answers = []
-    return render_template("index/post.html", post=post, form=form, comments=comments, answer=answer, answers=answers, accost=accost)
+            return redirect(url_for("post", id=id))      
+    return render_template("index/post.html", post=post, form=form, comments=comments)

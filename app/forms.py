@@ -44,7 +44,7 @@ class TextEditorForm(FlaskForm):
 
 
 class AddCommentForm(FlaskForm):
-    author = StringField("Username", validators=[DataRequired()])
-    email = StringField("Email", validators=[DataRequired(), Email()])
-    body = TextAreaField("Comment", validators=[DataRequired()])
+    author = StringField("Username")
+    email = StringField("Email")
+    body = TextAreaField("Comment")
     submit = SubmitField("Submit")
