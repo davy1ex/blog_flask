@@ -102,13 +102,34 @@ def post(id):
     form = AddCommentForm()
     post = Post.query.filter_by(id=id).first_or_404()
     comments = Comment.query.filter_by(post=post).all()
-
     answers = Answer
 
+    answer = False  # если тру, то автоставка никнейма для ответа
+
     if form.validate_on_submit():
-        if request.form["submit"] == "Ok":
+        # return str(form.body.data.split(" ")[0][1:-1])
+        if "[" in form.body.data.split(" ")[0] and "]" in form.body.data.split(" ")[0]:
+            comment = Comment.query.filter_by(author=form.body.data.split(" ")[0][1:-1]).first()
+            body = form.body.data.split("]")[1:][0]
+            author = form.author.data
+            email = form.email.data
+
+            answer = Answer(comment=comment, body=body, author=author, email=email)
+            db.session.add(answer)
+            db.session.commit()
+
+            return redirect(url_for("post", id=id))
+
+        elif "reply" in request.form["submit"]:
+            # return request.form["submit"][9:]
+            username = Comment.query.filter_by(id=int(request.form["submit"][9:])).first().author
+            form.body.data = "[" + username + "] "
+            return render_template("index/post.html", post=post, form=form, comments=comments, answers=answers)
+
+        elif form.body.data != "" and form.email.data != "" and form.author.data != "":
             comment = Comment(author=form.author.data, email=form.email.data, body=form.body.data, post=post)
             db.session.add(comment)
             db.session.commit()
             return redirect(url_for("post", id=id))
+
     return render_template("index/post.html", post=post, form=form, comments=comments, answers=answers)
