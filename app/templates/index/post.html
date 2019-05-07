@@ -47,7 +47,7 @@
                                             </div>
 
                                             <div class="email">
-                                                {{ answer.email }}
+                                                ({{ answer.email }})
                                             </div>    
                                         </div>                                        
                                         {{ answer.body }} <br>
@@ -63,8 +63,7 @@
                 <div class="add_comments">
                     
                     {{ form.hidden_tag() }}
-                    <div class="text_area_field">                        
-                        <script> $(function(){ window.location.hash = "input_comment_field"; }); </script>
+                    <div class="text_area_field">
                         <a href="input_comment_field">                           
                         </a>
                         Comment (140 letters): 
