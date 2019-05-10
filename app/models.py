@@ -6,9 +6,11 @@ from flask_login import UserMixin
 
 from app import db, login
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
+
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,12 +31,6 @@ class User(db.Model, UserMixin):
 
     def change_username(self, new_username):
         self.username = new_username
-
-    def change_about(self, new_about):
-        self.about = new_about
-
-    def get_pic(self, size):
-        return "https://www.gravatar.com/avatar/{0}?s={1}".format(md5(self.email.encode('utf-8')).hexdigest(), size)
 
 
 class Post(db.Model):

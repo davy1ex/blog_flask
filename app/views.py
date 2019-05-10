@@ -119,8 +119,9 @@ def post(id):
 
     if form.validate_on_submit():
         # return str(form.body.data.split(" ")[0][1:-1])
-        if "[" in form.body.data.split(" ")[0] and "]" in form.body.data.split(" ")[0] and Validator.email(form.email.data):
-            comment = Comment.query.filter_by(author=form.body.data.split(" ")[0][1:-1]).first()
+        if "[" in form.body.data.split(" ")[0] and "]" in form.body.data.split(" ")[0] and Validator.email(form.email.data) and Validator.data_required(form.author.data):
+            # comment = Comment.query.filter_by(author=form.body.data.split(" ")[0][1:-1]).first()
+            comment = Comment.query.filter_by(id=form.body.data.split(" ")[0][1:-1]).first()
             body = form.body.data.split("]")[1:][0]
             author = form.author.data
             email = form.email.data
@@ -132,11 +133,12 @@ def post(id):
             return redirect(url_for("post", id=id))
 
         elif "reply" in request.form["submit"]:
-            username = Comment.query.filter_by(id=int(request.form["submit"][9:])).first().author
-            form.body.data = "[" + username + "] "
+            # username = Comment.query.filter_by(id=int(request.form["submit"][9:])).first().author
+            comment_id = request.form["submit"][9:]
+            form.body.data = "[" + comment_id + "] "
             return render_template("index/post.html", post=post, form=form, comments=comments, answers=answers)
 
-        elif form.body.data != "" and form.email.data != "" and form.author.data != "" and Validator.email(form.email.data):
+        elif Validator.data_required(form.body.data) and Validator.email(form.email.data) and Validator.data_required(form.author.data):
             comment = Comment(author=form.author.data, email=form.email.data, body=form.body.data, post=post)
             db.session.add(comment)
             db.session.commit()
