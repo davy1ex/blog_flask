@@ -79,15 +79,13 @@ input[type=text] {
     width: 50%;
     padding-top: 10px;
     text-align: right;
-    /*margin-left: auto;*/
-    /*margin-right: auto;*/
 }
 
 .button input[type="submit"] {
     width: 100px;
 }
 
-.answer {
-    width: 50%;
-    text-align: right;
+.answers_wrapper {
+    width: 95%;
+    margin-left: auto;
 }

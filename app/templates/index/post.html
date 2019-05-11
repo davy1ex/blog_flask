@@ -31,12 +31,28 @@
                                 </div> 
                                 
                                 <div class="email">
-                                    ({{ comment.email }})    
+                                    ({{ comment.email }})
                                 </div>
                             </div>
                             
                             <div class="comment_body">
                                 {{ comment.body }}
+                                {{ form.submit(value="reply to %d" %comment.id) }}
+                                <div class="answers_wrapper">
+                                    {% for answer in answers.query.filter_by(comment=comment).all() %}
+                                        <br>
+                                        <div class="comment_contact_info">
+                                            <div class="author">
+                                                {{ answer.author }}
+                                            </div>
+
+                                            <div class="email">
+                                                ({{ answer.email }})
+                                            </div>    
+                                        </div>                                        
+                                        {{ answer.body }} <br>
+                                    {% endfor %}
+                                </div>
                             </div>
 
                             
@@ -48,12 +64,11 @@
                     
                     {{ form.hidden_tag() }}
                     <div class="text_area_field">
-                        Comment (140 letters): <br>
-                        {% if answer %}
-                            {{ form.body(value="[" + accost + "]")}}
-                        {% else %}
-                            {{ form.body(value="хуй") }}<br>
-                        {% endif %}
+                        <a href="input_comment_field">                           
+                        </a>
+                        Comment (140 letters): 
+                        <br>
+                        {{ form.body() }}
                     </div>
                     
                     <div class="contact_info">

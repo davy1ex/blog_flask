@@ -11,6 +11,17 @@ from app.forms import RegForm, LoginForm, ProfileSettingsForm, TextEditorForm, A
 admin_username = "admin"
 
 
+class Validator:
+    def email(data):
+        if "@" in data and "." in data and len(data) >= 4:
+            return True
+        return False
+
+    def data_required(data):
+        if len(data) > 0:
+            return True
+
+
 @app.route("/admin", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -44,16 +55,6 @@ def index():
 @login_required
 def settings_profile():
     form = ProfileSettingsForm()
-    # user = current_user
-    # if form.validate_on_submit():
-    #     if form.username.data != "":
-    #         if User.query.filter_by(username=form.username.data).first() is None:
-    #             current_user.change_username(form.username.data)
-    #             db.session.commit()
-
-    #     if form.about.data != "":
-    #         current_user.change_about(form.about.data)
-    #         db.session.commit()
     return render_template("settings/profile.html", form=form)
 
 
@@ -101,11 +102,38 @@ def post(id):
     form = AddCommentForm()
     post = Post.query.filter_by(id=id).first_or_404()
     comments = Comment.query.filter_by(post=post).all()
+    answers = Answer
+
+    answer = False  # если тру, то автоставка никнейма для ответа
 
     if form.validate_on_submit():
-        if request.form["submit"] == "Ok":
+        # return str(form.body.data.split(" ")[0][1:-1])
+        if "[" in form.body.data.split(" ")[0] and "]" in form.body.data.split(" ")[0] and Validator.email(form.email.data) and Validator.data_required(form.author.data):
+            # comment = Comment.query.filter_by(author=form.body.data.split(" ")[0][1:-1]).first()
+            comment = Comment.query.filter_by(id=form.body.data.split(" ")[0][1:-1]).first()
+            body = form.body.data.split("]")[1:][0]
+            author = form.author.data
+            email = form.email.data
+
+            answer = Answer(comment=comment, body=body, author=author, email=email)
+            db.session.add(answer)
+            db.session.commit()
+
+            return redirect(url_for("post", id=id))
+
+        elif "reply" in request.form["submit"]:
+            # username = Comment.query.filter_by(id=int(request.form["submit"][9:])).first().author
+            comment_id = request.form["submit"][9:]
+            form.body.data = "[" + comment_id + "] "
+            return render_template("index/post.html", post=post, form=form, comments=comments, answers=answers)
+
+        elif Validator.data_required(form.body.data) and Validator.email(form.email.data) and Validator.data_required(form.author.data):
             comment = Comment(author=form.author.data, email=form.email.data, body=form.body.data, post=post)
             db.session.add(comment)
             db.session.commit()
-            return redirect(url_for("post", id=id))      
-    return render_template("index/post.html", post=post, form=form, comments=comments)
+            return redirect(url_for("post", id=id))
+
+        else:
+            return redirect(url_for("post", id=id))
+
+    return render_template("index/post.html", post=post, form=form, comments=comments, answers=answers)
