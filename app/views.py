@@ -78,8 +78,7 @@ def add_post():
 
             if file.filename == "":
                 return redirect(url_for("add_post"))
-
-            # filename = file.filename # пофиксить безопасные имена при сохранении        
+  
             file.save(os.path.join(os.getcwd(), "app", "static", "img", str(post.id), "img.jpeg"))
 
             return redirect(url_for("index"))
