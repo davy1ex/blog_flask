@@ -55,16 +55,6 @@ def index():
 @login_required
 def settings_profile():
     form = ProfileSettingsForm()
-    # user = current_user
-    # if form.validate_on_submit():
-    #     if form.username.data != "":
-    #         if User.query.filter_by(username=form.username.data).first() is None:
-    #             current_user.change_username(form.username.data)
-    #             db.session.commit()
-
-    #     if form.about.data != "":
-    #         current_user.change_about(form.about.data)
-    #         db.session.commit()
     return render_template("settings/profile.html", form=form)
 
 
@@ -142,6 +132,9 @@ def post(id):
             comment = Comment(author=form.author.data, email=form.email.data, body=form.body.data, post=post)
             db.session.add(comment)
             db.session.commit()
+            return redirect(url_for("post", id=id))
+
+        else:
             return redirect(url_for("post", id=id))
 
     return render_template("index/post.html", post=post, form=form, comments=comments, answers=answers)
